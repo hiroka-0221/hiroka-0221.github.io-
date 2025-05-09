@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>AI News</title>
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzRhNjliZCIgcng9IjIwIi8+PHRleHQgeD0iNTAiIHk9IjYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNTAiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5BSTwvdGV4dD48L3N2Zz4=">
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f7;
+            color: #1c1c1e;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        .app-container {
+            max-width: 100%;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background-color: #4a69bd;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 15px;
+        }
+        
+        .notification {
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            display: none;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .success {
+            background-color: #d1f5d3;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .news-item {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .news-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1c1c1e;
+            line-height: 1.3;
+        }
+        
+        .news-source {
+            font-size: 0.8rem;
+            color: #8e8e93;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .news-source::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #4a69bd;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        
+        .news-summary {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #3a3a3c;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 0;
+            flex-direction: column;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(74, 105, 189, 0.2);
+            border-left-color: #4a69bd;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: #6e6e73;
+            font-size: 0.9rem;
+        }
+        
+        .settings-panel {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .settings-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1c1c1e;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #3a3a3c;
+        }
+        
+        input[type="time"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d1d6;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: #f9f9f9;
+        }
+        
+        .button {
+            background-color: #4a69bd;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: block;
+            text-align: center;
+        }
+        
+        .button:active {
+            background-color: #3c58b0;
+            transform: scale(0.98);
+        }
+        
+        .button-secondary {
+            background-color: #e2e2e7;
+            color: #3a3a3c;
+        }
+        
+        .button-secondary:active {
+            background-color: #d1d1d6;
+        }
+        
+        .next-update {
+            font-style: italic;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #8e8e93;
+        }
+        
+        .time-display {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #8e8e93;
+            margin-top: 16px;
+            padding-bottom: 10px;
+        }
+        
+        .tabs {
+            display: flex;
+            background-color: white;
+            border-top: 1px solid #d1d1d6;
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px 5px;
+            text-align: center;
+            color: #8e8e93;
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .tab.active {
+            color: #4a69bd;
+        }
+        
+        .tab-icon {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+        
+        .screen {
+            display: none;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .pull-to-refresh-message {
+            text-align: center;
+            padding: 10px;
+            color: #8e8e93;
+            font-size: 0.85rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .pull-to-refresh-message.visible {
+            opacity: 1;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #8e8e93;
+        }
+        
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .empty-text {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
+        .home-banner {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .close-banner {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #856404;
+            padding: 0 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>AI News</h1>
+            <div class="subtitle">Daily updates at your fingertips</div>
+        </header>
+        
+        <div class="notification success" id="notification">
+            Settings updated!
+        </div>
+        
+        <div class="content">
+            <div id="homeBanner" class="home-banner">
+                Add to Home Screen for the best experience!
+                <button class="close-banner" id="closeBanner">✕</button>
+            </div>
+            
+            <div class="screen active" id="newsScreen">
+                <div class="pull-to-refresh-message" id="pullMessage">
+                    Pull down to refresh
+                </div>
+                
+                <div id="newsContainer">
+                    <div class="loading" id="loadingIndicator">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">Loading AI news...</div>
+                    </div>
+                    <!-- News items will be populated here -->
+                </div>
+            </div>
+            
+            <div class="screen" id="settingsScreen">
+                <div class="settings-panel">
+                    <div class="settings-title">Daily Update Settings</div>
+                    <div class="form-group">
+                        <label for="notificationTime">Preferred update time:</label>
+                        <input type="time" id="notificationTime" value="07:00">
+                        <div class="next-update" id="nextUpdate">
+                            Note: This is a demo app. In a real app, you would receive notifications at this time.
+                        </div>
+                    </div>
+                    <button class="button" id="saveSettings">Save Preference</button>
+                    <button class="button button-secondary" id="refreshNews">Refresh News Now</button>
+                </div>
+                
+                <div class="settings-panel" style="margin-top: 16px;">
+                    <div class="settings-title">About This App</div>
+                    <p style="font-size: 0.95rem; color: #3a3a3c; line-height: 1.5;">
+                        This web app brings you the latest AI news daily. Add to your home screen for easy access!
+                    </p>
+                    <div style="font-size: 0.85rem; color: #8e8e93; margin-top: 10px;">
+                        To add to home screen:
+                        <ol style="padding-left: 20px; margin-top: 5px;">
+                            <li>Tap the share icon in Safari</li>
+                            <li>Scroll down and tap "Add to Home Screen"</li>
+                            <li>Tap "Add" in the top right corner</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="time-display" id="lastUpdated"></div>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" id="newsTab">
+                <div class="tab-icon">📰</div>
+                News
+            </div>
+            <div class="tab" id="settingsTab">
+                <div class="tab-icon">⚙️</div>
+                Settings
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample AI news data
+        const aiNewsSamples = [
+            {
+                title: "Google's DeepMind Announces New Foundation Model Architecture",
+                source: "AI Trends Journal",
+                summary: "Google's DeepMind has unveiled a new foundation model architecture that reduces computational requirements by 40% while maintaining performance comparable to larger models. The breakthrough could make advanced AI more accessible to smaller research teams and companies."
+            },
+            {
+                title: "OpenAI Releases Updated Safety Guidelines for AI Systems",
+                source: "Tech Chronicle",
+                summary: "OpenAI has published comprehensive guidelines for evaluating the safety of advanced AI systems. The framework addresses concerns about alignment, misuse potential, and harmful emergent behaviors in large language models."
+            },
+            {
+                title: "EU AI Act Implementation Details Revealed",
+                source: "European Tech Policy Review",
+                summary: "The European Commission has released detailed implementation plans for the EU AI Act, clarifying compliance requirements for high-risk AI applications. Companies will have a 12-month grace period to adapt systems to the new regulations."
+            },
+            {
+                title: "New Multimodal AI System Can Generate 3D Assets from Text Prompts",
+                source: "Creative Tech Daily",
+                summary: "Researchers have developed a new AI system capable of generating detailed 3D models from simple text descriptions. The technology could revolutionize game development, architectural visualization, and virtual world creation."
+            },
+            {
+                title: "Machine Learning Model Predicts Protein Interactions with 95% Accuracy",
+                source: "BioTech Innovations",
+                summary: "Scientists have trained a new machine learning model that predicts protein-protein interactions with unprecedented accuracy. The breakthrough could accelerate drug discovery and provide deeper insights into cellular mechanisms."
+            },
+            {
+                title: "Microsoft Introduces AI-Powered Code Assistant for Multiple Languages",
+                source: "Developer Weekly",
+                summary: "Microsoft has launched a new AI coding assistant that supports over 20 programming languages. The tool integrates with major IDEs and provides context-aware suggestions, code generation, and automated refactoring options."
+            },
+            {
+                title: "AI Ethics Conference Highlights Need for Diverse Development Teams",
+                source: "Tech Diversity Report",
+                summary: "The International AI Ethics Summit emphasized that diverse development teams are essential for creating AI systems that work equitably for all users. Research presented at the conference showed significant performance disparities in systems developed by homogeneous teams."
+            },
+            {
+                title: "Autonomous Vehicle Company Achieves Level 4 Certification",
+                source: "Automotive AI Monitor",
+                summary: "Waymo has received Level 4 autonomous driving certification for their latest fleet of vehicles, allowing operation without human supervision in designated areas. This marks a significant milestone in self-driving technology adoption."
+            },
+            {
+                title: "New AI Model Understands Multiple Languages Without Translation",
+                source: "Global Tech Today",
+                summary: "Researchers have developed a multilingual AI model that can understand and process 100+ languages without relying on translation. This breakthrough could help preserve linguistic diversity and improve accessibility for speakers of less common languages."
+            },
+            {
+                title: "Healthcare AI Detects Early Signs of Alzheimer's with 92% Accuracy",
+                source: "Medical AI Review",
+                summary: "A new AI diagnostic system can detect early signs of Alzheimer's disease by analyzing speech patterns and MRI scans. Clinical trials show 92% accuracy up to 5 years before conventional diagnosis methods."
+            }
+        ];
+        
+        // DOM elements
+        const newsContainer = document.getElementById('newsContainer');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const lastUpdatedElement = document.getElementById('lastUpdated');
+        const notificationTimeInput = document.getElementById('notificationTime');
+        const saveSettingsBtn = document.getElementById('saveSettings');
+        const refreshNewsBtn = document.getElementById('refreshNews');
+        const notificationElement = document.getElementById('notification');
+        const nextUpdateElement = document.getElementById('nextUpdate');
+        const newsTab = document.getElementById('newsTab');
+        const settingsTab = document.getElementById('settingsTab');
+        const newsScreen = document.getElementById('newsScreen');
+        const settingsScreen = document.getElementById('settingsScreen');
+        const pullMessage = document.getElementById('pullMessage');
+        const homeBanner = document.getElementById('homeBanner');
+        const closeBanner = document.getElementById('closeBanner');
+        
+        // Hide home banner on click
+        closeBanner.addEventListener('click', () => {
+            homeBanner.style.display = 'none';
+        });
+        
+        // Check if it's a standalone app already
+        if (window.navigator.standalone) {
+            homeBanner.style.display = 'none';
+        }
+        
+        // Tab switching
+        newsTab.addEventListener('click', () => {
+            newsTab.classList.add('active');
+            settingsTab.classList.remove('active');
+            newsScreen.classList.add('active');
+            settingsScreen.classList.remove('active');
+        });
+        
+        settingsTab.addEventListener('click', () => {
+            settingsTab.classList.add('active');
+            newsTab.classList.remove('active');
+            settingsScreen.classList.add('active');
+            newsScreen.classList.remove('active');
+        });
+        
+        // Save settings 
+        function saveSettings() {
+            // Add haptic feedback if supported
+            if ('vibrate' in navigator) {
+                navigator.vibrate(50);
+            }
+            
+            // Show notification
+            notificationElement.style.display = 'block';
+            setTimeout(() => {
+                notificationElement.style.display = 'none';
+            }, 2000);
+        }
+        
+        // Fetch and display news
+        function fetchNews() {
+            // Show loading indicator
+            loadingIndicator.style.display = 'flex';
+            newsContainer.innerHTML = '';
+            
+            // Simulate API fetch delay
+            setTimeout(() => {
+                // In a real app, you would fetch from an AI news API
+                // For this demo, we'll use our sample data and randomize it
+                
+                // Shuffle and select 4-6 random news items
+                const shuffledNews = [...aiNewsSamples].sort(() => 0.5 - Math.random());
+                const selectedNews = shuffledNews.slice(0, Math.floor(Math.random() * 3) + 4);
+                
+                // Hide loading indicator
+                loadingIndicator.style.display = 'none';
+                
+                // Display the news
+                if (selectedNews.length === 0) {
+                    // Show empty state
+                    const emptyState = document.createElement('div');
+                    emptyState.className = 'empty-state';
+                    emptyState.innerHTML = `
+                        <div class="empty-icon">📭</div>
+                        <div class="empty-text">No news available right now</div>
+                        <button class="button" onclick="fetchNews()">Refresh</button>
+                    `;
+                    newsContainer.appendChild(emptyState);
+                } else {
+                    // Display the news items
+                    selectedNews.forEach(news => {
+                        const newsItem = document.createElement('div');
+                        newsItem.className = 'news-item';
+                        
+                        const newsTitle = document.createElement('div');
+                        newsTitle.className = 'news-title';
+                        newsTitle.textContent = news.title;
+                        
+                        const newsSource = document.createElement('div');
+                        newsSource.className = 'news-source';
+                        newsSource.textContent = news.source;
+                        
+                        const newsSummary = document.createElement('div');
+                        newsSummary.className = 'news-summary';
+                        newsSummary.textContent = news.summary;
+                        
+                        newsItem.appendChild(newsTitle);
+                        newsItem.appendChild(newsSource);
+                        newsItem.appendChild(newsSummary);
+                        
+                        newsContainer.appendChild(newsItem);
+                    });
+                }
+                
+                // Update last updated time
+                const now = new Date();
+                const options = { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    hour: 'numeric', 
+                    minute: 'numeric' 
+                };
+                lastUpdatedElement.textContent = `Last updated: ${now.toLocaleString(undefined, options)}`;
+                
+            }, 1200);
+        }
+        
+        // Pull-to-refresh functionality
+        let touchStartY = 0;
+        let touchEndY = 0;
+        const minPullDistance = 80;
+        let isPulling = false;
+        
+        newsScreen.addEventListener('touchstart', (e) => {
+            if (window.scrollY === 0) {
+                touchStartY = e.touches[0].clientY;
+                isPulling = true;
+            }
+        }, { passive: true });
+        
+        newsScreen.addEventListener('touchmove', (e) => {
+            if (isPulling) {
+                touchEndY = e.touches[0].clientY;
+                const distance = touchEndY - touchStartY;
+                
+                if (distance > 0 && distance < minPullDistance * 1.5) {
+                    pullMessage.style.opacity = distance / minPullDistance;
+                }
+            }
+        }, { passive: true });
+        
+        newsScreen.addEventListener('touchend', () => {
+            if (isPulling) {
+                const distance = touchEndY - touchStartY;
+                
+                if (distance > minPullDistance) {
+                    // Add haptic feedback if supported
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(50);
+                    }
+                    
+                    fetchNews();
+                }
+                
+                pullMessage.style.opacity = 0;
+                isPulling = false;
+            }
+        });
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load news immediately
+            fetchNews();
+            
+            saveSettingsBtn.addEventListener('click', saveSettings);
+            refreshNewsBtn.addEventListener('click', fetchNews);
+            
+            // Add to home screen reminder for iOS
+            const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+            if (!isIOS) {
+                homeBanner.style.display = 'none';
+            }
+        });
+        
+        // Initialize the app by loading news
+        fetchNews();
+    </script>
+</body>
+</html>
