@@ -757,6 +757,27 @@
                         newsLink.rel = 'noopener noreferrer';
                         newsLink.textContent = 'Read more';
                         
+                        // Prevent link click from causing issues
+                        newsLink.addEventListener('click', function(e) {
+                            e.stopPropagation(); // Stop event bubbling
+                            // For demo purposes, you can uncomment the next line to prevent actual navigation
+                            // e.preventDefault();
+                            
+                            // Show visual feedback that link was clicked
+                            const originalText = this.textContent;
+                            this.textContent = 'Opening...';
+                            
+                            // Reset text after a short delay
+                            setTimeout(() => {
+                                this.textContent = originalText;
+                            }, 1500);
+                            
+                            // Add haptic feedback if supported
+                            if ('vibrate' in navigator) {
+                                navigator.vibrate(30);
+                            }
+                        });
+                        
                         newsItem.appendChild(newsTitle);
                         newsItem.appendChild(newsSource);
                         newsItem.appendChild(newsSummary);
