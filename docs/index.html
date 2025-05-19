@@ -79,11 +79,6 @@
             padding: 16px;
             margin-bottom: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease;
-        }
-        
-        .news-item:active {
-            transform: scale(0.98);
         }
         
         .news-title {
@@ -116,24 +111,6 @@
             font-size: 0.95rem;
             line-height: 1.5;
             color: #3a3a3c;
-            margin-bottom: 10px;
-        }
-        
-        .news-link {
-            display: inline-block;
-            margin-top: 5px;
-            font-size: 0.85rem;
-            color: #4a69bd;
-            text-decoration: none;
-            padding: 5px 10px;
-            border: 1px solid #4a69bd;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-        }
-        
-        .news-link:active {
-            background-color: #4a69bd;
-            color: white;
         }
         
         .loading {
@@ -335,90 +312,6 @@
             padding: 0 5px;
             cursor: pointer;
         }
-        
-        .dark-mode-toggle {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-            margin-left: auto;
-        }
-        
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-        
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .toggle-slider {
-            background-color: #4a69bd;
-        }
-        
-        input:checked + .toggle-slider:before {
-            transform: translateX(26px);
-        }
-        
-        /* Dark mode styles */
-        body.dark-mode {
-            background-color: #1c1c1e;
-            color: #f2f2f7;
-        }
-        
-        body.dark-mode .news-item,
-        body.dark-mode .settings-panel,
-        body.dark-mode .tabs {
-            background-color: #2c2c2e;
-            border-color: #3a3a3c;
-        }
-        
-        body.dark-mode .news-title {
-            color: #f2f2f7;
-        }
-        
-        body.dark-mode .news-summary {
-            color: #d1d1d6;
-        }
-        
-        body.dark-mode input[type="time"] {
-            background-color: #3a3a3c;
-            border-color: #3a3a3c;
-            color: #f2f2f7;
-        }
-        
-        body.dark-mode .button-secondary {
-            background-color: #3a3a3c;
-            color: #f2f2f7;
-        }
     </style>
 </head>
 <body>
@@ -454,17 +347,6 @@
             
             <div class="screen" id="settingsScreen">
                 <div class="settings-panel">
-                    <div class="settings-title">Display Settings</div>
-                    <div class="dark-mode-toggle">
-                        <span>Dark Mode</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="darkModeToggle">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="settings-panel" style="margin-top: 16px;">
                     <div class="settings-title">Daily Update Settings</div>
                     <div class="form-group">
                         <label for="notificationTime">Preferred update time:</label>
@@ -479,7 +361,7 @@
                 
                 <div class="settings-panel" style="margin-top: 16px;">
                     <div class="settings-title">About This App</div>
-                    <p style="font-size: 0.95rem; color: inherit; line-height: 1.5;">
+                    <p style="font-size: 0.95rem; color: #3a3a3c; line-height: 1.5;">
                         This web app brings you the latest AI news daily. Add to your home screen for easy access!
                     </p>
                     <div style="font-size: 0.85rem; color: #8e8e93; margin-top: 10px;">
@@ -509,67 +391,57 @@
     </div>
 
     <script>
-        // Sample AI news data with reference links
+        // Sample AI news data
         const aiNewsSamples = [
             {
                 title: "Google's DeepMind Announces New Foundation Model Architecture",
                 source: "AI Trends Journal",
-                summary: "Google's DeepMind has unveiled a new foundation model architecture that reduces computational requirements by 40% while maintaining performance comparable to larger models. The breakthrough could make advanced AI more accessible to smaller research teams and companies.",
-                link: "https://deepmind.google/discover/blog/"
+                summary: "Google's DeepMind has unveiled a new foundation model architecture that reduces computational requirements by 40% while maintaining performance comparable to larger models. The breakthrough could make advanced AI more accessible to smaller research teams and companies."
             },
             {
                 title: "OpenAI Releases Updated Safety Guidelines for AI Systems",
                 source: "Tech Chronicle",
-                summary: "OpenAI has published comprehensive guidelines for evaluating the safety of advanced AI systems. The framework addresses concerns about alignment, misuse potential, and harmful emergent behaviors in large language models.",
-                link: "https://openai.com/blog"
+                summary: "OpenAI has published comprehensive guidelines for evaluating the safety of advanced AI systems. The framework addresses concerns about alignment, misuse potential, and harmful emergent behaviors in large language models."
             },
             {
                 title: "EU AI Act Implementation Details Revealed",
                 source: "European Tech Policy Review",
-                summary: "The European Commission has released detailed implementation plans for the EU AI Act, clarifying compliance requirements for high-risk AI applications. Companies will have a 12-month grace period to adapt systems to the new regulations.",
-                link: "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai"
+                summary: "The European Commission has released detailed implementation plans for the EU AI Act, clarifying compliance requirements for high-risk AI applications. Companies will have a 12-month grace period to adapt systems to the new regulations."
             },
             {
                 title: "New Multimodal AI System Can Generate 3D Assets from Text Prompts",
                 source: "Creative Tech Daily",
-                summary: "Researchers have developed a new AI system capable of generating detailed 3D models from simple text descriptions. The technology could revolutionize game development, architectural visualization, and virtual world creation.",
-                link: "https://arxiv.org/list/cs.CV/recent"
+                summary: "Researchers have developed a new AI system capable of generating detailed 3D models from simple text descriptions. The technology could revolutionize game development, architectural visualization, and virtual world creation."
             },
             {
                 title: "Machine Learning Model Predicts Protein Interactions with 95% Accuracy",
                 source: "BioTech Innovations",
-                summary: "Scientists have trained a new machine learning model that predicts protein-protein interactions with unprecedented accuracy. The breakthrough could accelerate drug discovery and provide deeper insights into cellular mechanisms.",
-                link: "https://www.nature.com/subjects/machine-learning"
+                summary: "Scientists have trained a new machine learning model that predicts protein-protein interactions with unprecedented accuracy. The breakthrough could accelerate drug discovery and provide deeper insights into cellular mechanisms."
             },
             {
                 title: "Microsoft Introduces AI-Powered Code Assistant for Multiple Languages",
                 source: "Developer Weekly",
-                summary: "Microsoft has launched a new AI coding assistant that supports over 20 programming languages. The tool integrates with major IDEs and provides context-aware suggestions, code generation, and automated refactoring options.",
-                link: "https://github.blog/"
+                summary: "Microsoft has launched a new AI coding assistant that supports over 20 programming languages. The tool integrates with major IDEs and provides context-aware suggestions, code generation, and automated refactoring options."
             },
             {
                 title: "AI Ethics Conference Highlights Need for Diverse Development Teams",
                 source: "Tech Diversity Report",
-                summary: "The International AI Ethics Summit emphasized that diverse development teams are essential for creating AI systems that work equitably for all users. Research presented at the conference showed significant performance disparities in systems developed by homogeneous teams.",
-                link: "https://hai.stanford.edu/"
+                summary: "The International AI Ethics Summit emphasized that diverse development teams are essential for creating AI systems that work equitably for all users. Research presented at the conference showed significant performance disparities in systems developed by homogeneous teams."
             },
             {
                 title: "Autonomous Vehicle Company Achieves Level 4 Certification",
                 source: "Automotive AI Monitor",
-                summary: "Waymo has received Level 4 autonomous driving certification for their latest fleet of vehicles, allowing operation without human supervision in designated areas. This marks a significant milestone in self-driving technology adoption.",
-                link: "https://waymo.com/blog/"
+                summary: "Waymo has received Level 4 autonomous driving certification for their latest fleet of vehicles, allowing operation without human supervision in designated areas. This marks a significant milestone in self-driving technology adoption."
             },
             {
                 title: "New AI Model Understands Multiple Languages Without Translation",
                 source: "Global Tech Today",
-                summary: "Researchers have developed a multilingual AI model that can understand and process 100+ languages without relying on translation. This breakthrough could help preserve linguistic diversity and improve accessibility for speakers of less common languages.",
-                link: "https://research.google/"
+                summary: "Researchers have developed a multilingual AI model that can understand and process 100+ languages without relying on translation. This breakthrough could help preserve linguistic diversity and improve accessibility for speakers of less common languages."
             },
             {
                 title: "Healthcare AI Detects Early Signs of Alzheimer's with 92% Accuracy",
                 source: "Medical AI Review",
-                summary: "A new AI diagnostic system can detect early signs of Alzheimer's disease by analyzing speech patterns and MRI scans. Clinical trials show 92% accuracy up to 5 years before conventional diagnosis methods.",
-                link: "https://www.nature.com/subjects/computational-biology-and-bioinformatics"
+                summary: "A new AI diagnostic system can detect early signs of Alzheimer's disease by analyzing speech patterns and MRI scans. Clinical trials show 92% accuracy up to 5 years before conventional diagnosis methods."
             }
         ];
         
@@ -589,46 +461,11 @@
         const pullMessage = document.getElementById('pullMessage');
         const homeBanner = document.getElementById('homeBanner');
         const closeBanner = document.getElementById('closeBanner');
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        
-        // Dark mode toggle
-        function initDarkMode() {
-            // Check user preference
-            const isDarkMode = localStorage.getItem('darkMode') === 'true';
-            
-            // Set initial state
-            if (isDarkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeToggle.checked = true;
-            }
-            
-            // Listen for changes
-            darkModeToggle.addEventListener('change', function() {
-                if (this.checked) {
-                    document.body.classList.add('dark-mode');
-                    localStorage.setItem('darkMode', 'true');
-                } else {
-                    document.body.classList.remove('dark-mode');
-                    localStorage.setItem('darkMode', 'false');
-                }
-                
-                // Add haptic feedback if supported
-                if ('vibrate' in navigator) {
-                    navigator.vibrate(30);
-                }
-            });
-        }
         
         // Hide home banner on click
         closeBanner.addEventListener('click', () => {
             homeBanner.style.display = 'none';
-            localStorage.setItem('bannerClosed', 'true');
         });
-        
-        // Check if banner was previously closed
-        if (localStorage.getItem('bannerClosed') === 'true') {
-            homeBanner.style.display = 'none';
-        }
         
         // Check if it's a standalone app already
         if (window.navigator.standalone) {
@@ -652,9 +489,6 @@
         
         // Save settings 
         function saveSettings() {
-            // Save the notification time preference
-            localStorage.setItem('notificationTime', notificationTimeInput.value);
-            
             // Add haptic feedback if supported
             if ('vibrate' in navigator) {
                 navigator.vibrate(50);
@@ -665,42 +499,6 @@
             setTimeout(() => {
                 notificationElement.style.display = 'none';
             }, 2000);
-            
-            // Update next update info
-            updateNextUpdateText();
-        }
-        
-        // Update next update text
-        function updateNextUpdateText() {
-            const time = notificationTimeInput.value;
-            const now = new Date();
-            const [hours, minutes] = time.split(':').map(Number);
-            
-            const nextUpdate = new Date();
-            nextUpdate.setHours(hours, minutes, 0, 0);
-            
-            // If the time has already passed today, set for tomorrow
-            if (nextUpdate <= now) {
-                nextUpdate.setDate(nextUpdate.getDate() + 1);
-            }
-            
-            const options = { 
-                weekday: 'long',
-                month: 'short', 
-                day: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit'
-            };
-            
-            nextUpdateElement.textContent = `Next update scheduled for: ${nextUpdate.toLocaleString(undefined, options)}`;
-        }
-        
-        // Load saved notification time
-        function loadSavedSettings() {
-            if (localStorage.getItem('notificationTime')) {
-                notificationTimeInput.value = localStorage.getItem('notificationTime');
-                updateNextUpdateText();
-            }
         }
         
         // Fetch and display news
@@ -750,38 +548,9 @@
                         newsSummary.className = 'news-summary';
                         newsSummary.textContent = news.summary;
                         
-                        const newsLink = document.createElement('a');
-                        newsLink.className = 'news-link';
-                        newsLink.href = news.link;
-                        newsLink.target = '_blank';
-                        newsLink.rel = 'noopener noreferrer';
-                        newsLink.textContent = 'Read more';
-                        
-                        // Prevent link click from causing issues
-                        newsLink.addEventListener('click', function(e) {
-                            e.stopPropagation(); // Stop event bubbling
-                            // For demo purposes, you can uncomment the next line to prevent actual navigation
-                            // e.preventDefault();
-                            
-                            // Show visual feedback that link was clicked
-                            const originalText = this.textContent;
-                            this.textContent = 'Opening...';
-                            
-                            // Reset text after a short delay
-                            setTimeout(() => {
-                                this.textContent = originalText;
-                            }, 1500);
-                            
-                            // Add haptic feedback if supported
-                            if ('vibrate' in navigator) {
-                                navigator.vibrate(30);
-                            }
-                        });
-                        
                         newsItem.appendChild(newsTitle);
                         newsItem.appendChild(newsSource);
                         newsItem.appendChild(newsSummary);
-                        newsItem.appendChild(newsLink);
                         
                         newsContainer.appendChild(newsItem);
                     });
@@ -797,9 +566,6 @@
                 };
                 lastUpdatedElement.textContent = `Last updated: ${now.toLocaleString(undefined, options)}`;
                 
-                // Save last updated timestamp
-                localStorage.setItem('lastUpdated', now.toISOString());
-                
             }, 1200);
         }
         
@@ -809,75 +575,47 @@
         const minPullDistance = 80;
         let isPulling = false;
         
-        function setupPullToRefresh() {
-            newsScreen.addEventListener('touchstart', (e) => {
-                if (window.scrollY === 0) {
-                    touchStartY = e.touches[0].clientY;
-                    isPulling = true;
-                }
-            }, { passive: true });
-            
-            newsScreen.addEventListener('touchmove', (e) => {
-                if (isPulling) {
-                    touchEndY = e.touches[0].clientY;
-                    const distance = touchEndY - touchStartY;
-                    
-                    if (distance > 0 && distance < minPullDistance * 1.5) {
-                        pullMessage.style.opacity = distance / minPullDistance;
-                    }
-                }
-            }, { passive: true });
-            
-            newsScreen.addEventListener('touchend', () => {
-                if (isPulling) {
-                    const distance = touchEndY - touchStartY;
-                    
-                    if (distance > minPullDistance) {
-                        // Add haptic feedback if supported
-                        if ('vibrate' in navigator) {
-                            navigator.vibrate(50);
-                        }
-                        
-                        fetchNews();
-                    }
-                    
-                    pullMessage.style.opacity = 0;
-                    isPulling = false;
-                }
-            });
-        }
-        
-        // Check for network state
-        function updateOnlineStatus() {
-            if (navigator.onLine) {
-                fetchNews();
-            } else {
-                loadingIndicator.style.display = 'none';
-                
-                const offlineMessage = document.createElement('div');
-                offlineMessage.className = 'empty-state';
-                offlineMessage.innerHTML = `
-                    <div class="empty-icon">📶</div>
-                    <div class="empty-text">You're offline. Please check your connection.</div>
-                    <button class="button" onclick="fetchNews()">Try Again</button>
-                `;
-                newsContainer.innerHTML = '';
-                newsContainer.appendChild(offlineMessage);
+        newsScreen.addEventListener('touchstart', (e) => {
+            if (window.scrollY === 0) {
+                touchStartY = e.touches[0].clientY;
+                isPulling = true;
             }
-        }
+        }, { passive: true });
+        
+        newsScreen.addEventListener('touchmove', (e) => {
+            if (isPulling) {
+                touchEndY = e.touches[0].clientY;
+                const distance = touchEndY - touchStartY;
+                
+                if (distance > 0 && distance < minPullDistance * 1.5) {
+                    pullMessage.style.opacity = distance / minPullDistance;
+                }
+            }
+        }, { passive: true });
+        
+        newsScreen.addEventListener('touchend', () => {
+            if (isPulling) {
+                const distance = touchEndY - touchStartY;
+                
+                if (distance > minPullDistance) {
+                    // Add haptic feedback if supported
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(50);
+                    }
+                    
+                    fetchNews();
+                }
+                
+                pullMessage.style.opacity = 0;
+                isPulling = false;
+            }
+        });
         
         // Event listeners
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize dark mode
-            initDarkMode();
+            // Load news immediately
+            fetchNews();
             
-            // Load saved settings
-            loadSavedSettings();
-            
-            // Setup pull to refresh
-            setupPullToRefresh();
-            
-            // Set up event listeners
             saveSettingsBtn.addEventListener('click', saveSettings);
             refreshNewsBtn.addEventListener('click', fetchNews);
             
@@ -886,11 +624,10 @@
             if (!isIOS) {
                 homeBanner.style.display = 'none';
             }
-            
-            // Check online status
-            window.addEventListener('online', updateOnlineStatus);
-            window.addEventListener('offline', updateOnlineStatus);
-            
-            // Load news immediately
-            updateOnlineStatus();
         });
+        
+        // Initialize the app by loading news
+        fetchNews();
+    </script>
+</body>
+</html>
