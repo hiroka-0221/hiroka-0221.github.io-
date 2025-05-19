@@ -111,6 +111,50 @@
             font-size: 0.95rem;
             line-height: 1.5;
             color: #3a3a3c;
+            margin-bottom: 12px;
+        }
+        
+        .news-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f2f2f7;
+        }
+        
+        .read-more-link {
+            display: inline-flex;
+            align-items: center;
+            color: #4a69bd;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background-color: rgba(74, 105, 189, 0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .read-more-link:hover,
+        .read-more-link:active {
+            background-color: rgba(74, 105, 189, 0.15);
+            transform: scale(0.98);
+        }
+        
+        .read-more-link::after {
+            content: "→";
+            margin-left: 6px;
+            transition: transform 0.2s ease;
+        }
+        
+        .read-more-link:hover::after {
+            transform: translateX(2px);
+        }
+        
+        .news-time {
+            font-size: 0.8rem;
+            color: #8e8e93;
         }
         
         .loading {
@@ -391,57 +435,77 @@
     </div>
 
     <script>
-        // Sample AI news data
+        // Sample AI news data with reference URLs
         const aiNewsSamples = [
             {
                 title: "Google's DeepMind Announces New Foundation Model Architecture",
                 source: "AI Trends Journal",
-                summary: "Google's DeepMind has unveiled a new foundation model architecture that reduces computational requirements by 40% while maintaining performance comparable to larger models. The breakthrough could make advanced AI more accessible to smaller research teams and companies."
+                summary: "Google's DeepMind has unveiled a new foundation model architecture that reduces computational requirements by 40% while maintaining performance comparable to larger models. The breakthrough could make advanced AI more accessible to smaller research teams and companies.",
+                url: "https://aitrendsjournal.com/deepmind-foundation-model-2024",
+                publishedTime: "2 hours ago"
             },
             {
                 title: "OpenAI Releases Updated Safety Guidelines for AI Systems",
                 source: "Tech Chronicle",
-                summary: "OpenAI has published comprehensive guidelines for evaluating the safety of advanced AI systems. The framework addresses concerns about alignment, misuse potential, and harmful emergent behaviors in large language models."
+                summary: "OpenAI has published comprehensive guidelines for evaluating the safety of advanced AI systems. The framework addresses concerns about alignment, misuse potential, and harmful emergent behaviors in large language models.",
+                url: "https://techchronicle.com/openai-safety-guidelines-update",
+                publishedTime: "4 hours ago"
             },
             {
                 title: "EU AI Act Implementation Details Revealed",
                 source: "European Tech Policy Review",
-                summary: "The European Commission has released detailed implementation plans for the EU AI Act, clarifying compliance requirements for high-risk AI applications. Companies will have a 12-month grace period to adapt systems to the new regulations."
+                summary: "The European Commission has released detailed implementation plans for the EU AI Act, clarifying compliance requirements for high-risk AI applications. Companies will have a 12-month grace period to adapt systems to the new regulations.",
+                url: "https://eutechpolicy.com/ai-act-implementation-2024",
+                publishedTime: "6 hours ago"
             },
             {
                 title: "New Multimodal AI System Can Generate 3D Assets from Text Prompts",
                 source: "Creative Tech Daily",
-                summary: "Researchers have developed a new AI system capable of generating detailed 3D models from simple text descriptions. The technology could revolutionize game development, architectural visualization, and virtual world creation."
+                summary: "Researchers have developed a new AI system capable of generating detailed 3D models from simple text descriptions. The technology could revolutionize game development, architectural visualization, and virtual world creation.",
+                url: "https://creativetechdaily.com/3d-generation-ai-breakthrough",
+                publishedTime: "8 hours ago"
             },
             {
                 title: "Machine Learning Model Predicts Protein Interactions with 95% Accuracy",
                 source: "BioTech Innovations",
-                summary: "Scientists have trained a new machine learning model that predicts protein-protein interactions with unprecedented accuracy. The breakthrough could accelerate drug discovery and provide deeper insights into cellular mechanisms."
+                summary: "Scientists have trained a new machine learning model that predicts protein-protein interactions with unprecedented accuracy. The breakthrough could accelerate drug discovery and provide deeper insights into cellular mechanisms.",
+                url: "https://biotechinnovations.com/protein-interaction-ml-model",
+                publishedTime: "10 hours ago"
             },
             {
                 title: "Microsoft Introduces AI-Powered Code Assistant for Multiple Languages",
                 source: "Developer Weekly",
-                summary: "Microsoft has launched a new AI coding assistant that supports over 20 programming languages. The tool integrates with major IDEs and provides context-aware suggestions, code generation, and automated refactoring options."
+                summary: "Microsoft has launched a new AI coding assistant that supports over 20 programming languages. The tool integrates with major IDEs and provides context-aware suggestions, code generation, and automated refactoring options.",
+                url: "https://developerweekly.com/microsoft-ai-code-assistant",
+                publishedTime: "12 hours ago"
             },
             {
                 title: "AI Ethics Conference Highlights Need for Diverse Development Teams",
                 source: "Tech Diversity Report",
-                summary: "The International AI Ethics Summit emphasized that diverse development teams are essential for creating AI systems that work equitably for all users. Research presented at the conference showed significant performance disparities in systems developed by homogeneous teams."
+                summary: "The International AI Ethics Summit emphasized that diverse development teams are essential for creating AI systems that work equitably for all users. Research presented at the conference showed significant performance disparities in systems developed by homogeneous teams.",
+                url: "https://techdiversityreport.com/ai-ethics-summit-2024",
+                publishedTime: "14 hours ago"
             },
             {
                 title: "Autonomous Vehicle Company Achieves Level 4 Certification",
                 source: "Automotive AI Monitor",
-                summary: "Waymo has received Level 4 autonomous driving certification for their latest fleet of vehicles, allowing operation without human supervision in designated areas. This marks a significant milestone in self-driving technology adoption."
+                summary: "Waymo has received Level 4 autonomous driving certification for their latest fleet of vehicles, allowing operation without human supervision in designated areas. This marks a significant milestone in self-driving technology adoption.",
+                url: "https://automotiveaimonitor.com/waymo-level-4-certification",
+                publishedTime: "16 hours ago"
             },
             {
                 title: "New AI Model Understands Multiple Languages Without Translation",
                 source: "Global Tech Today",
-                summary: "Researchers have developed a multilingual AI model that can understand and process 100+ languages without relying on translation. This breakthrough could help preserve linguistic diversity and improve accessibility for speakers of less common languages."
+                summary: "Researchers have developed a multilingual AI model that can understand and process 100+ languages without relying on translation. This breakthrough could help preserve linguistic diversity and improve accessibility for speakers of less common languages.",
+                url: "https://globaltechtoday.com/multilingual-ai-no-translation",
+                publishedTime: "18 hours ago"
             },
             {
                 title: "Healthcare AI Detects Early Signs of Alzheimer's with 92% Accuracy",
                 source: "Medical AI Review",
-                summary: "A new AI diagnostic system can detect early signs of Alzheimer's disease by analyzing speech patterns and MRI scans. Clinical trials show 92% accuracy up to 5 years before conventional diagnosis methods."
+                summary: "A new AI diagnostic system can detect early signs of Alzheimer's disease by analyzing speech patterns and MRI scans. Clinical trials show 92% accuracy up to 5 years before conventional diagnosis methods.",
+                url: "https://medicalairev.com/alzheimer-detection-breakthrough",
+                publishedTime: "20 hours ago"
             }
         ];
         
@@ -548,9 +612,28 @@
                         newsSummary.className = 'news-summary';
                         newsSummary.textContent = news.summary;
                         
+                        // Create footer with read more link and time
+                        const newsFooter = document.createElement('div');
+                        newsFooter.className = 'news-footer';
+                        
+                        const readMoreLink = document.createElement('a');
+                        readMoreLink.className = 'read-more-link';
+                        readMoreLink.href = news.url;
+                        readMoreLink.target = '_blank';
+                        readMoreLink.rel = 'noopener noreferrer';
+                        readMoreLink.textContent = 'Read More';
+                        
+                        const newsTime = document.createElement('div');
+                        newsTime.className = 'news-time';
+                        newsTime.textContent = news.publishedTime;
+                        
+                        newsFooter.appendChild(readMoreLink);
+                        newsFooter.appendChild(newsTime);
+                        
                         newsItem.appendChild(newsTitle);
                         newsItem.appendChild(newsSource);
                         newsItem.appendChild(newsSummary);
+                        newsItem.appendChild(newsFooter);
                         
                         newsContainer.appendChild(newsItem);
                     });
